@@ -195,12 +195,23 @@ if (BUILD_FRAMEWORK)
   )
 endif ()
 
+if (WIN32)
+	add_executable(apinames	src/tools/apinames.c)
+endif()
+
 add_library(freetype
   ${PUBLIC_HEADERS}
   ${PUBLIC_CONFIG_HEADERS}
   ${PRIVATE_HEADERS}
   ${BASE_SRCS}
 )
+
+if(WIN32)
+	if(MSVC)
+		configure_file(	${CMAKE_CURRENT_SOURCE_DIR}/src/freetype.def ${CMAKE_CURRENT_BINARY_DIR}/src/freetype.def @ONLY)
+		set_target_properties(freetype PROPERTIES LINK_FLAGS "/DEF:src/freetype.def")
+	endif()
+endif()
 
 if (BUILD_FRAMEWORK)
   set_property(SOURCE ${PUBLIC_CONFIG_HEADERS}

@@ -1,11 +1,11 @@
 cmake_minimum_required (VERSION 3.1.0)
 project (SDLTTF)
 
+list(APPEND CMAKE_MODULE_PATH "${SDLTTF_SOURCE_DIR}/cmake")
+
 include(CheckLibraryExists)
 include(CheckIncludeFiles)
 include(CheckIncludeFile)
-
-set(CMAKE_MODULE_PATH "${SDLTTF_SOURCE_DIR}/cmake")
 
 find_package(SDL2 REQUIRED)
 
@@ -39,6 +39,8 @@ add_library(SDLTTF SHARED
 	${SDLTTF_SOURCES}
 )
 
+add_dependencies(SDLTTF SDL2)
+
 set_target_properties(SDLTTF
     PROPERTIES
     ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib"
@@ -47,7 +49,8 @@ set_target_properties(SDLTTF
 )
 
 target_link_libraries (SDLTTF
-	${SDL2_LIBRARIES} ${SDLTTF_LIBRARIES}
+	${SDL2_LIBRARIES}
+	${SDLTTF_LIBRARIES}
 )
 
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY build)
